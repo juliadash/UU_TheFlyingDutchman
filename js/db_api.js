@@ -1,6 +1,23 @@
 /*
-BASE API URL
+BASE API URL:
 http://pub.jamaica-inn.net/fpdb/api.php?username="+username+"&password="+password+"&action=
+
+
+Response structure:
+
+{
+"type": "type_of_response",
+"payload" : [
+{property1:"abc", property2:"xyz"},                  <---- object 1
+{property1:"abc", property2:"xyz"},                  <---- object 2
+...
+...
+{property1:"abc", property2:"xyz"},                  <---- object N-1
+{property1:"abc", property2:"xyz"},                  <---- object N
+]
+}
+
+
 
 
 */
@@ -44,8 +61,11 @@ function isDangerous(str){
 
 
 
+
+
+
 /*
-Provided correct credentials, this function will return the entire inventory.
+Provided correct admin-credentials, this function will return the entire inventory.
 example credentials: jorass:jorass
 */
 function getInventory(username,password){
@@ -59,6 +79,10 @@ function getInventory(username,password){
         return response;
     }
 }
+
+
+
+
 
 
 /*
@@ -79,12 +103,19 @@ function getPurchases(username,password){
 
 
 
+
+
+
+
 /*
 
-example:
+Returns all information available in the system for a specified beer. This includes name, price, alcohol
+volume, etc. The id of the beer for inquiry is a required additional parameter
+
+example usage:
 txt = getBeerData("aamsta","aamsta",150103);
 obj = JSON.parse(txt);
-beerName = obj.payload[0].namn;
+nameOfBeer = obj.payload[0].namn;
 */
 function getBeerData(username,password,beerID){
     if (isDangerous(username) || isDangerous(password) || isDangerous(beerID)){
