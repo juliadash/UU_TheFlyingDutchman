@@ -1,4 +1,12 @@
 /*
+BASE API URL
+http://pub.jamaica-inn.net/fpdb/api.php?username="+username+"&password="+password+"&action=
+
+
+*/
+
+
+/*
 This function makes an async. HTTP-get call to 'theUrl'
 */
 function httpGetAsync(theUrl, callback){
@@ -38,18 +46,66 @@ function isDangerous(str){
 
 /*
 Provided correct credentials, this function will return the entire inventory.
+example credentials: jorass:jorass
 */
 function getInventory(username,password){
     if (isDangerous(username) || isDangerous(password)){
         console.log("Error: Username or password contained potential dangerous characters...");
         return;
-    } else{
+    } else {
         url = "http://pub.jamaica-inn.net/fpdb/api.php?username="+username+"&password="+password+"&action=inventory_get"
         response = httpGet(url);
         console.log(response);
         return response;
     }
 }
+
+
+/*
+Gives a list of all purchases made by the specified user 'username'.
+example credentials: aamsta:aamsta
+*/
+function getPurchases(username,password){
+    if (isDangerous(username) || isDangerous(password)){
+        console.log("Error: Username or password contained potential dangerous characters...");
+        return;
+    } else {
+        url = "http://pub.jamaica-inn.net/fpdb/api.php?username="+username+"&password="+password+"&action=purchases_get"
+        response = httpGet(url);
+        console.log(response);
+        return response;
+    }
+}
+
+
+
+/*
+
+example:
+txt = getBeerData("aamsta","aamsta",150103);
+obj = JSON.parse(txt);
+beerName = obj.payload[0].namn;
+*/
+function getBeerData(username,password,beerID){
+    if (isDangerous(username) || isDangerous(password) || isDangerous(beerID)){
+        console.log("Error: Username or password contained potential dangerous characters...");
+        return;
+    } else {
+        url = "http://pub.jamaica-inn.net/fpdb/api.php?username="+username+"&password="+password+"&action=beer_data_get&beer_id="+beerID
+        response = httpGet(url);
+        console.log(response);
+        return response;
+    }
+}
+
+
+
+
+
+
+
+
+
 
 
 
