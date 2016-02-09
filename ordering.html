@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Flying Dutchman</title>
+
+    <!--<script src="lib/jquery-2.2.0.min.js"></script>-->
+    <script src="lib/js/jquery-2.2.0.js"></script>
+    <script src="lib/js/bootstrap.min.js"></script>
+
+    <script src="js/core.js"></script>
+    <script src="js/db_api.js"></script>
+    <script src="js/ordering.js"></script>
+
+    <link rel="stylesheet" href="lib/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="lib/css/bootstrap-theme.min.css"/>
+    <link rel="stylesheet" href="lib/css/languages.min.css"/>
+    <link rel="stylesheet" href="css/main.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<header id="languageSelectionPlaceholder"></header>
+
+<div id="left">
+    <div class="container">
+        <h3>Your Order ID - <b id="orderMetainfo"></b> </h3>
+    </div>
+    <div class="nav">
+
+        <ul>
+            <li><a href="#">Cat1</a></li>
+            <li><a href="#">Cat1</a></li>
+            <li><a href="#">Cat1</a></li>
+            <li><a href="#" onclick="populateBeers()">fetch beers</a></li>
+        </ul>
+
+    </div>
+
+    <div class="container">
+        <div id="beerGrid">
+        </div>
+    </div>
+
+</div>
+
+<div id="right">
+    <div class="container" style="height:100%;">
+        <h2>Order List</h2>
+        <div class="divider"></div>
+
+
+        <div class="footer">
+            <div class="divider"></div>
+            Total:
+
+            <p> 800 SEK</p>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
