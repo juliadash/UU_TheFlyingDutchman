@@ -189,11 +189,11 @@ function populateBeers() {
             j--;
         } else {
             if (j % 3 === 2) {
-                beerString += '<div class="col-md-3" ondrop="onDrop(event)" ondragover="onDragOver(event)" style="min-height: 176px; border: 1px solid #aaaaaa;">' +
+                beerString += '<div id="orign_'+ b.namn + b.namn2 +'" class="col-md-3" ondrop="onDrop(event)" ondragover="onDragOver(event)" style="min-height: 176px; border: 1px solid #aaaaaa;">' +
                     '<div id="'+ b.namn + b.namn2 +'" class="card" draggable="true" ondragstart="onDragStart(event)" ondragover="onDragOver(event)" style="border: 1px solid #aaaaaa;">' +
                     '<div class="card-header"></div><div class="card-content"><h3>' + b.namn + "</h3><h4>" + b.namn2 + '</h4><b class="priceTag">' + b.price + ' SEK</b></div></div></div></div></div><div class="row">';
             } else {
-                beerString += '</div><div class="col-md-3" ondrop="onDrop(event)" ondragover="onDragOver(event)" style="min-height: 176px; border: 1px solid #aaaaaa;">' +
+                beerString += '</div><div id="orign_'+ b.namn + b.namn2 +'" class="col-md-3" ondrop="onDrop(event)" ondragover="onDragOver(event)" style="min-height: 176px; border: 1px solid #aaaaaa;">' +
                     '<div id="'+ b.namn + b.namn2 +'" class="card" draggable="true" ondragstart="onDragStart(event)" ondragover="onDragOver(event)" style="border: 1px solid #aaaaaa;">' +
                     '<div class="card-header"></div><div class="card-content"><h3>' + b.namn + "</h3><h4>" + b.namn2 + '</h4><b class="priceTag">' + b.price + ' SEK</b></div></div></div></div></div>';
             }

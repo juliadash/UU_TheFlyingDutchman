@@ -55,26 +55,26 @@ body {
 
 
 
-#dropArea .card{
+#orderList .card{
     max-height: 70px;
     margin-top: 20px;
 }
-#dropArea .card-content{
+#orderList .card-content{
     margin:5px;
 }
-#dropArea .card-header{
+#orderList .card-header{
     display:none;
 }
-#dropArea .card h3{
+#orderList .card h3{
      font-size: 14px;
      margin-bottom: 0;
      display:inline;
 }
-#dropArea .card h3:after{
+#orderList .card h3:after{
     content:" ";
 }
 
-#dropArea .card h4 {
+#orderList .card h4 {
     font-size: 11px;
     display:inline;
     margin-top: 0;
@@ -82,7 +82,7 @@ body {
 
 }
 
-#dropArea .card .priceTag{
+#orderList .card .priceTag{
     display:block;
 }
 
@@ -103,7 +103,7 @@ h1 {
     border-top: 1px solid #888;
 }
 
-#dropArea{
+#orderList {
   
 }
 

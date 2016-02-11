@@ -3,7 +3,8 @@
  */
 
 $(document).ready(function () {
-    var metainfo = localStorage.getItem('metaInfo');
+
+    var metainfo = localStorage.getItem('metaInfo'); //TODO: change getItem() to removeItem()
     $('#orderMetainfo').text(metainfo);
 
 });
