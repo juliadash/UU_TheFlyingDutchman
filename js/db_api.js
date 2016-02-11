@@ -46,7 +46,7 @@ function httpGetAsync(theUrl, callback) {
     xmlHttp.onreadystatechange = function () {
         if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
             callback(xmlHttp.responseText);
-    }
+    };
     xmlHttp.open("GET", theUrl, true); // true for asynchronous 
     xmlHttp.send(null);
 }
@@ -80,7 +80,6 @@ function isDangerous(str) {
 function getInventory(username, password) {
     if (isDangerous(username) || isDangerous(password)) {
         console.log("Error: Username or password contained potential dangerous characters...");
-        return;
     } else {
         url = "http://pub.jamaica-inn.net/fpdb/api.php?username=" + username + "&password=" + password + "&action=inventory_get"
         response = httpGet(url);
@@ -97,7 +96,6 @@ function getInventory(username, password) {
 function getPurchases(username, password) {
     if (isDangerous(username) || isDangerous(password)) {
         console.log("Error: Username or password contained potential dangerous characters...");
-        return;
     } else {
         url = "http://pub.jamaica-inn.net/fpdb/api.php?username=" + username + "&password=" + password + "&action=purchases_get"
         response = httpGet(url);
@@ -120,7 +118,6 @@ function getPurchases(username, password) {
 function getBeerData(username, password, beerID) {
     if (isDangerous(username) || isDangerous(password) || isDangerous(beerID)) {
         console.log("Error: Username or password contained potential dangerous characters...");
-        return;
     } else {
         url = "http://pub.jamaica-inn.net/fpdb/api.php?username=" + username + "&password=" + password + "&action=beer_data_get&beer_id=" + beerID
         response = httpGet(url);
@@ -137,8 +134,8 @@ function getAvailBeers() {
     inv_list = obj.payload;
     for (i = 0; i < inv_list.length; i++) {
         if (inv_list[i].count > 0) {
-            b = inv_list[i]
-            beer = {"namn": b.namn, "namn2": b.namn2, "price": b.price}
+            b = inv_list[i];
+            beer = {"namn": b.namn, "namn2": b.namn2, "price": b.price};
             beer_list.push(beer);
         }
     }
@@ -150,7 +147,6 @@ function getAvailBeers() {
 function amountInInventory(username, password, beerID) {
     if (isDangerous(username) || isDangerous(password) || isDangerous(beerID)) {
         console.log("Error: Username or password contained potential dangerous characters...");
-        return;
     } else {
         txt = getInventory(username, password);
         obj = JSON.parse(txt);
@@ -169,7 +165,6 @@ function amountInInventory(username, password, beerID) {
 function makePurchase(username, password, beerID, amount) {
     if (isDangerous(username) || isDangerous(password) || isDangerous(beerID)) {
         console.log("Error: Username or password contained potential dangerous characters...");
-        return;
     } else {
         if (amountInInventory(username, password, beerID) > amount) {
 
@@ -179,9 +174,7 @@ function makePurchase(username, password, beerID, amount) {
         }
         else {
             console.log("not enough items in inventory");
-            return;
         }
-        return;
     }
 }
 
