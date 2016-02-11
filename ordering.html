@@ -49,22 +49,29 @@
 
     </div>
 
-    <div id="right" style="padding: 10px">
+    <div id="right" style="padding: 10px" onmouseover="document.body.style.overflow='hidden';" onmouseout="document.body.style.overflow='auto';">
 
         <h2>Order List</h2>
         <hr style="margin-top: 5px; margin-bottom: 5px; border: 1px solid #aaaaaa">
 
-        <div style="width: 100%; height: 80%; border: 1px solid #aaaaaa;"
-             ondrop="onDrop(event)" ondragover="onDragOver(event)"></div>
+        <div id="dropArea" style="width: 100%; height: 100%;"
+             ondrop="onDrop(event)" ondragover="onDragOver(event)">
 
-        <hr style="margin-top: 5px; margin-bottom: 5px; border: 1px solid #aaaaaa">
-
-        <div class="footer" style="margin-top: 10px">
-            <div style="text-align: left; margin-top: 10px; float: left">Total</div>
-            <div id="total" style="text-align: right; margin-top: 10px; float: right"><b>800 SEK</b></div>
+  
         </div>
 
+        
+
+
+        
     </div>
+
+    <div class="footer">
+        <hr style="margin-top: 5px; margin-bottom: 5px; border: 1px solid #aaaaaa">
+        <b>Total</b>
+        <div id="total"><b>800 SEK</b></div>
+    </div>
+
 
 </div>
 

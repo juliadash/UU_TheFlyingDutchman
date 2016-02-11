@@ -14,13 +14,13 @@ body {
     background-color: rgb(241, 241, 241);
 }
 
+
 .card {
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
     background-color: white;
     margin-top: 30px;
 
 }
-
 .card-header {
     overflow: hidden;
     width: 100%;
@@ -53,6 +53,46 @@ body {
 
 }
 
+
+
+#dropArea .card{
+    max-height: 70px;
+    margin-top: 20px;
+}
+#dropArea .card-content{
+    margin:5px;
+}
+#dropArea .card-header{
+    display:none;
+}
+#dropArea .card h3{
+     font-size: 14px;
+     margin-bottom: 0;
+     display:inline;
+}
+#dropArea .card h3:after{
+    content:" ";
+}
+
+#dropArea .card h4 {
+    font-size: 11px;
+    display:inline;
+    margin-top: 0;
+    color: #FF5252;
+
+}
+
+#dropArea .card .priceTag{
+    display:block;
+}
+
+
+
+
+
+
+
+
 h1 {
     margin-bottom: 20px;
 }
@@ -63,22 +103,30 @@ h1 {
     border-top: 1px solid #888;
 }
 
+#dropArea{
+  
+}
+
 .footer {
-    height: 10%;
+    height: 100px;
     font-size: 18px;
-    position: absolute;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    margin: 10px;
+    position: fixed;
+    right: 20px;
+    background: white;
+    border: 1px 1px 1px 0px solid #ccc;
+    bottom:0;
+    padding:10px;
+    box-shadow: 0px -20px 100px #888888;
     font-weight: 800;
     line-height: 40px;
+    
+    width:25%;
 }
 
 #right {
     width: 25%;
     height: 80%;
-
+    overflow: scroll;
     position: fixed;
     border-left: 1px solid #ccc;
     background: #fff;
@@ -119,6 +167,7 @@ h1 {
 
     width: 25%; /* tot width per menu item*/
     float: left;
+    
 
     height: 100%;
 
