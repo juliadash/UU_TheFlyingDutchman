@@ -7,12 +7,64 @@ $(document).ready(function () {
 });
 
 const BEER_VIEW_URL = "http://localhost/UU_TheFlyingDutchman/ordering.html#Beers";
-const ORDER_LIST_NODE_ID = "orderList";
 const KEYCODE_CTRL_Z = 90;
 const KEYCODE_CTRL_Y = 89;
 
-var undoStack = [];
-var redoStack = [];
+var UndoManager = function () {
+
+    var _pointer = -1;
+    var _undoStack = [];
+
+    this.add = function (command) {
+        _undoStack[++_pointer] = command;
+    };
+
+    this.undo = function () {
+        if (_pointer != -1) {
+            command = _undoStack[_pointer--];
+            command.doUndo();
+        }
+    };
+
+    this.redo = function () {
+        if (_pointer != _undoStack.length - 1) {
+            command = _undoStack[++_pointer];
+            command.doUndo();
+        }
+    };
+};
+
+var DraggableObject = function (draggableElementID, previousParentNodeID) {
+
+    var _draggableElementID = draggableElementID;
+    var _previousParentNodeID = previousParentNodeID;
+
+    this.getDraggableElementID = function () {
+        return _draggableElementID;
+    };
+
+    this.getPreviousParentNodeID = function () {
+        return _previousParentNodeID;
+    };
+
+    this.setPreviousParentNodeID = function (previousParentNodeID) {
+        _previousParentNodeID = previousParentNodeID;
+    };
+};
+
+var DragCommand = function (draggableObject) {
+    this.doUndo = function () {
+        draggableElement = document.getElementById(draggableObject.getDraggableElementID());
+        destinationNode = document.getElementById(draggableObject.getPreviousParentNodeID());
+        currentParentNode = draggableElement.parentNode;
+
+        currentParentNode.removeChild(draggableElement);
+        destinationNode.appendChild(draggableElement);
+        draggableObject.setPreviousParentNodeID(currentParentNode.id);
+    };
+};
+
+var undoManager = new UndoManager();
 
 function onDragStart(e) {
     e.dataTransfer.effectAllowed = 'move';
@@ -26,42 +78,25 @@ function onDragOver(e) {
 function onDrop(e) {
     e.stopPropagation();
 
-    var data = e.dataTransfer.getData('text');
-    e.target.appendChild(document.getElementById(data));
+    draggableElementID = e.dataTransfer.getData('text');
+    draggableElement = document.getElementById(draggableElementID);
+    parentNodeID = draggableElement.parentNode.id;
+    e.target.appendChild(draggableElement);
 
-    addToUndoManager(data);
-}
+    if (!undoManager) {
+        undoManager = new UndoManager();
+    }
 
-function addToUndoManager(o) {
-    undoStack.push(o);
+    draggableObject = new DraggableObject(draggableElementID, parentNodeID);
+    undoManager.add(new DragCommand(draggableObject));
 }
 
 function doUndo(e) {
-    if (undoStack.length != 0) {
-        var draggableElementID = undoStack.pop();
-        var draggableElement = document.getElementById(draggableElementID);
-        var parentNode = draggableElement.parentNode;
-        var dropNode = document.getElementById("orign_" + draggableElementID);
-
-        parentNode.removeChild(draggableElement);
-        dropNode.appendChild(draggableElement);
-
-        redoStack.push(draggableElementID);
-    }
+    undoManager.undo();
 }
 
 function doRedo(e) {
-    if (redoStack != 0) {
-        var draggableElementID = redoStack.pop();
-        var draggableElement = document.getElementById(draggableElementID);
-        var parentNode = draggableElement.parentNode;
-        var dropNode = document.getElementById(ORDER_LIST_NODE_ID);
-
-        parentNode.removeChild(draggableElement);
-        dropNode.appendChild(draggableElement);
-
-        undoStack.push(draggableElementID);
-    }
+    undoManager.redo();
 }
 
 window.onkeyup = function (e) {
