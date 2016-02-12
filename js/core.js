@@ -6,9 +6,10 @@ $(document).ready(function () {
     $("#languageSelectionPlaceholder").load("header.html");
 });
 
-const BEER_VIEW_URL = "http://localhost/UU_TheFlyingDutchman/ordering.html#Beers";
-const KEYCODE_CTRL_Z = 90;
-const KEYCODE_CTRL_Y = 89;
+/**
+ * undo implementation
+ *
+ **/
 
 var UndoManager = function () {
 
@@ -34,37 +35,62 @@ var UndoManager = function () {
     };
 };
 
-var DraggableObject = function (draggableElementID, previousParentNodeID) {
+var DragCommand = function (draggableElementID, previousParentNodeID) {
 
     var _draggableElementID = draggableElementID;
     var _previousParentNodeID = previousParentNodeID;
 
-    this.getDraggableElementID = function () {
-        return _draggableElementID;
-    };
-
-    this.getPreviousParentNodeID = function () {
-        return _previousParentNodeID;
-    };
-
-    this.setPreviousParentNodeID = function (previousParentNodeID) {
-        _previousParentNodeID = previousParentNodeID;
-    };
-};
-
-var DragCommand = function (draggableObject) {
     this.doUndo = function () {
-        draggableElement = document.getElementById(draggableObject.getDraggableElementID());
-        destinationNode = document.getElementById(draggableObject.getPreviousParentNodeID());
+        draggableElement = document.getElementById(_draggableElementID);
+        destinationNode = document.getElementById(_previousParentNodeID);
         currentParentNode = draggableElement.parentNode;
 
         currentParentNode.removeChild(draggableElement);
         destinationNode.appendChild(draggableElement);
-        draggableObject.setPreviousParentNodeID(currentParentNode.id);
+        _previousParentNodeID = currentParentNode.id;
+    };
+};
+
+var quantityCommand = function(productNodeId, quantity) {
+
+    _productNodeId = productNodeId;
+    _previousQuantity = quantity;
+
+    this.doUndo = function () {
+        productNode = document.getElementById(productNodeId);
     };
 };
 
 var undoManager = new UndoManager();
+
+function doUndo(e) {
+    undoManager.undo();
+}
+
+function doRedo(e) {
+    undoManager.redo();
+}
+
+const BEER_VIEW_URL = "http://localhost/UU_TheFlyingDutchman/ordering.html#Beers";
+const KEYCODE_CTRL_Z = 90;
+const KEYCODE_CTRL_Y = 89;
+
+window.onkeyup = function (e) {
+    if (document.URL === BEER_VIEW_URL) {
+        var keyCode = event.keyCode;
+        if (keyCode === KEYCODE_CTRL_Z) {
+            doUndo(e);
+        } else if (keyCode === KEYCODE_CTRL_Y) {
+            doRedo(e);
+        }
+    }
+};
+
+
+/**
+ * drag and drop implementation
+ *
+ **/
 
 function onDragStart(e) {
     e.dataTransfer.effectAllowed = 'move';
@@ -87,25 +113,5 @@ function onDrop(e) {
         undoManager = new UndoManager();
     }
 
-    draggableObject = new DraggableObject(draggableElementID, parentNodeID);
-    undoManager.add(new DragCommand(draggableObject));
+    undoManager.add(new DragCommand(draggableElementID, parentNodeID));
 }
-
-function doUndo(e) {
-    undoManager.undo();
-}
-
-function doRedo(e) {
-    undoManager.redo();
-}
-
-window.onkeyup = function (e) {
-    if (document.URL === BEER_VIEW_URL) {
-        var keyCode = event.keyCode;
-        if (keyCode === KEYCODE_CTRL_Z) {
-            doUndo(e);
-        } else if (keyCode === KEYCODE_CTRL_Y) {
-            doRedo(e);
-        }
-    }
-};
