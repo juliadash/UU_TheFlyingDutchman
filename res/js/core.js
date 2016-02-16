@@ -10,7 +10,7 @@ $(document).ready(function () {
  * undo implementation
  *
  **/
-
+    
 var UndoManager = function () {
 
     var _pointer = -1;
