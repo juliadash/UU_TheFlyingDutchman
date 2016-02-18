@@ -10,7 +10,12 @@ $(document).ready(function () {
  * undo implementation
  *
  **/
-    
+
+var undoStack = [];
+var redoStack = [];
+
+var last_node;
+
 var UndoManager = function () {
 
     var _pointer = -1;
@@ -102,16 +107,89 @@ function onDragOver(e) {
 }
 
 function onDrop(e) {
+
+
+    
+
     e.stopPropagation();
+    if (e.target.id == 'orderList'){
+    var data = e.dataTransfer.getData('text');
+        
+    var nodeCopy = document.getElementById(data).cloneNode(true);
+    $(nodeCopy).addClass('animated bounceIn');
+    console.log("target:");
+    console.log(e.target)
 
-    draggableElementID = e.dataTransfer.getData('text');
-    draggableElement = document.getElementById(draggableElementID);
-    parentNodeID = draggableElement.parentNode.id;
-    e.target.appendChild(draggableElement);
+    //draggableElementID = e.dataTransfer.getData('text');
+    //draggableElement = document.getElementById(draggableElementID);
 
+        parentNodeID = e.target.id;
+        addToUndoManager_x(nodeCopy);
+        e.target.appendChild(nodeCopy);
+        /*
     if (!undoManager) {
         undoManager = new UndoManager();
     }
 
-    undoManager.add(new DragCommand(draggableElementID, parentNodeID));
+        undoManager.add(new DragCommand(nodeCopy.id),parentNodeID);
+    */
+    
+        
+        
+        //$('#right').css('background-color','white');
+    
+        //$("#right").scrollTop($("#right")[0].scrollHeight);
+    }
+
 }
+
+
+
+
+
+
+
+function addToUndoManager_x(o) {
+    undoStack.push(o);
+}
+
+function doUndo_x(e){
+    var dragableElement = undoStack.pop();
+    $(dragableElement).removeClass( "animated bouncIn" );
+    var draggableElementID = dragableElement.id;
+    console.log(draggableElementID);
+    var draggableElement = document.getElementById(draggableElementID);
+    var parentNode = dragableElement.parentNode;
+
+    //var dropNode = document.getElementById("orign_" + draggableElementID);
+    redoStack.push(dragableElement);
+    
+    parentNode.removeChild(dragableElement);
+
+
+
+
+
+    //dropNode.appendChild(draggableElementID_aux);
+
+    
+}
+
+function doRedo_x(e){
+    var draggableElement = redoStack.pop();
+    
+    var draggableElementID = draggableElement.id
+    var parentNode = draggableElement.parentNode;
+    var dropNode = document.getElementById("orderList");
+    console.log(parentNode);
+    //parentNode.removeChild(draggableElement);
+    console.log(draggableElement);
+    dropNode.appendChild(draggableElement);
+    undoStack.push(draggableElement);
+    $(draggableElement).addClass('animated bounceIn');
+    
+}
+
+
+
+

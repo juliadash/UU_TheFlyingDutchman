@@ -232,6 +232,7 @@ function getBeerNames(){
 // 2 = ecological
 function getAllBeerOfCategory(category){
     out = [];
+    console.log("fetching beers");
     var str;
     for (i = 0; i < BEER_DATA.length; i++) {
         str = BEER_DATA[i].varugrupp;
@@ -259,6 +260,7 @@ function getAllBeerOfCategory(category){
 // 1 = kosher
 // 2 = ecological
 function getAllWineOfCategory(category){
+    console.log("fetching wines");
     var str;
     out = []
     for (i = 0; i < BEER_DATA.length; i++) {
@@ -283,9 +285,25 @@ function getAllWineOfCategory(category){
     return out;
 }
 
-function populateBeers() {
+
+function populateWines(category){
+    wines = getAllWineOfCategory(category);
+    populateGrid(wines);
+}
+
+function populateBeers(category){
+    beers = getAllBeerOfCategory(category);
+    populateGrid(beers);
+}
+
+function populateGrid(list) {
     var j = 0;
-    beers = getAvailBeers();
+    if (list.length < 1){
+        beers = getAvailBeers();
+    } else{
+        beers = list;
+    }
+    
     var beerString = '<div class="row">';
     for (var i = 0; i < beers.length; i++) {
         b = beers[i];
@@ -293,13 +311,28 @@ function populateBeers() {
             j--;
         } else {
             if (j % 3 === 2) {
-                beerString += '<div id="orign_'+ b.namn + b.namn2 +'" class="col-md-3" ondrop="onDrop(event)" ondragover="onDragOver(event)" style="min-height: 176px; border: 1px solid #aaaaaa;">' +
+                if (b.price != undefined){
+                beerString += '<div id="orign_'+ b.namn + b.namn2 +'" class="col-md-3" ondragover="onDragOver(event)" style="min-height: 176px; border: 1px solid #aaaaaa;">' +
                     '<div id="'+ b.namn + b.namn2 +'" class="card" draggable="true" ondragstart="onDragStart(event)" ondragover="onDragOver(event)" style="border: 1px solid #aaaaaa;">' +
-                    '<div class="card-header"></div><div class="card-content"><h3>' + b.namn + "</h3><h4>" + b.namn2 + '</h4><b class="priceTag">' + b.price + ' SEK</b></div></div></div></div></div><div class="row">';
+                        '<div class="card-header"></div><div class="card-content"><h3>' + b.namn + "</h3><h4>" + b.namn2 + '</h4><b class="priceTag">' + b.price + ' SEK</b></div></div></div></div></div><div class="row">';
+                }
+                else {
+                    beerString += '<div id="orign_'+ b.namn + b.namn2 +'" class="col-md-3" ondragover="onDragOver(event)" style="min-height: 176px; border: 1px solid #aaaaaa;">' +
+                    '<div id="'+ b.namn + b.namn2 +'" class="card" draggable="true" ondragstart="onDragStart(event)" ondragover="onDragOver(event)" style="border: 1px solid #aaaaaa;">' +
+                        '<div class="card-header"></div><div class="card-content"><h3>' + b.namn + "</h3><h4>" + b.namn2 + '</h4><b class="priceTag">' + b.prisinklmoms + ' SEK</b></div></div></div></div></div><div class="row">';
+                }
             } else {
-                beerString += '</div><div id="orign_'+ b.namn + b.namn2 +'" class="col-md-3" ondrop="onDrop(event)" ondragover="onDragOver(event)" style="min-height: 176px; border: 1px solid #aaaaaa;">' +
+                if (b.price != undefined){
+                beerString += '</div><div id="orign_'+ b.namn + b.namn2 +'" class="col-md-3" ondragover="onDragOver(event)" style="min-height: 176px; border: 1px solid #aaaaaa;">' +
                     '<div id="'+ b.namn + b.namn2 +'" class="card" draggable="true" ondragstart="onDragStart(event)" ondragover="onDragOver(event)" style="border: 1px solid #aaaaaa;">' +
                     '<div class="card-header"></div><div class="card-content"><h3>' + b.namn + "</h3><h4>" + b.namn2 + '</h4><b class="priceTag">' + b.price + ' SEK</b></div></div></div></div></div>';
+                }
+                else{
+                      beerString += '</div><div id="orign_'+ b.namn + b.namn2 +'" class="col-md-3" ondragover="onDragOver(event)" style="min-height: 176px; border: 1px solid #aaaaaa;">' +
+                    '<div id="'+ b.namn + b.namn2 +'" class="card" draggable="true" ondragstart="onDragStart(event)" ondragover="onDragOver(event)" style="border: 1px solid #aaaaaa;">' +
+                    '<div class="card-header"></div><div class="card-content"><h3>' + b.namn + "</h3><h4>" + b.namn2 + '</h4><b class="priceTag">' + b.prisinklmoms + ' SEK</b></div></div></div></div></div>';
+              
+                }
             }
         }
         j++;
